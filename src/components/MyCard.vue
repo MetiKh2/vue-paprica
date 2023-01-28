@@ -19,26 +19,29 @@
         }
       },
     },
+    props:['item']
     
   }
   
   </script>
 <template>
     <div class="d-flex flex-column pa-4 border">
-        <v-img :height="height" style="width:100% !important" src="https://www.tasvirezendegi.com/wp-content/uploads/2022/01/Food-for-dinner.jpg" />
-        <h3 class="mt-4">رب گوجه فرنگی خونگی  </h3>
+      <router-link :to="'/detail/'+1">
+        <v-img :height="height" style="width:100% !important" :src="item.image" />
+        <h3 class="mt-4">{{item.title}}  </h3>
         <div class="d-flex justify-space-evenly align-center flex-row-reverse">
             <p class="text-caption text-red">
-                3<v-icon>mdi-cards-heart</v-icon>
+                {{item.likes}}<v-icon>mdi-cards-heart</v-icon>
             </p>
             <p class="text-caption">
-                29
+                {{item.views}}
                 <v-icon>
                 mdi-eye
                 </v-icon>
             </p>
-            <p class="text-caption">Meti Kh</p>
+            <p class="text-caption">{{item.user}}</p>
 
         </div>
+      </router-link>
     </div>
 </template>

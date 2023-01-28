@@ -22,8 +22,10 @@
                   
                     <li class="side-bar-menu-item text-h6 d-block">
                       <P class="mr-7">
-                      نظرات من
+                        <router-link to="/comments">
+                            نظرات من
 
+                          </router-link>
                       </P>
                       </li>
                       <li class="side-bar-menu-item text-h6 d-block">

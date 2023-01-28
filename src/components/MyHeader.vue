@@ -8,13 +8,13 @@ export default {
         }
     },
     methods: {
-        toggle:function() {
+        toggle: function () {
             this.isSidebar = !this.isSidebar
         },
     },
     components: {
-        SideBar
-    }
+    SideBar,
+}
 }
 </script>
 <template>
@@ -25,7 +25,9 @@ export default {
                 <v-btn class="bg-transparent ">
                     <v-icon>mdi-magnify</v-icon>
                 </v-btn>
-                <h1 class="text-2 ">پاپریکا</h1>
+                <h1 class="text-2 "><router-link to="/">
+                        پاپریکا
+                    </router-link></h1>
                 <v-btn class="bg-transparent " v-on:click="toggle">
                     <v-icon>mdi-chart-bar-stacked</v-icon>
 
@@ -33,13 +35,19 @@ export default {
             </div>
             <div class="d-flex justify-space-between align-center mt-5 flex-wrap">
                 <v-btn class=" font-weight-bold rounded-xl px-8 bg-transparent bg-yellow">
+                   <router-link to="/">
                     عمومی
+                   </router-link> 
                 </v-btn>
                 <v-btn class="font-weight-bold rounded-xl px-8 bg-transparent">
-                    دوستان
+                    <router-link to="/friends">
+                        دوستان
+                   </router-link> 
                 </v-btn>
                 <v-btn class="font-weight-bold rounded-xl px-8 bg-transparent">
-                    علاقه مندی
+                    <router-link to="/favorites">
+                علاقه مندی
+                   </router-link> 
                 </v-btn>
 
             </div>

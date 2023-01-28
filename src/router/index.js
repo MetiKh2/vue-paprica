@@ -7,7 +7,9 @@ import ProfileView from '../views/ProfileView.vue'
 import CategoriesView from '../views/CategoriesView.vue'
 import LoginView from '../views/LoginView.vue'
 import RegisterView from '../views/RegisterView.vue' 
-
+import DetailView from '../views/DetailView.vue' 
+import CreatePostView from '../views/CreatePostView.vue'
+import CommentsView from '../views/CommentsView.vue'
 const router = createRouter({
   history: createWebHistory('/'),
   routes: [
@@ -23,7 +25,7 @@ const router = createRouter({
     },
     {
       path: '/friends',
-      name: 'list',
+      name: 'friends',
       component:FriendsView
     },
     {
@@ -50,7 +52,22 @@ const router = createRouter({
       path: '/register',
       name: 'register',
       component:RegisterView
+    }, 
+    {
+      path: '/detail/:id',
+      name: 'detail',
+      component:DetailView
     },    
+    {
+      path: '/create',
+      name: 'create',
+      component:CreatePostView
+    },       
+    {
+      path: '/comments',
+      name: 'comments',
+      component:CommentsView
+    },   
   ]
 })
 

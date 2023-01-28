@@ -8,7 +8,15 @@ img{
 .v-application__wrap{
     background-color: #eee;
 }
-
+a{
+    text-decoration: none !important;
+    color: unset;
+    cursor: pointer;
+}
+a:hover{
+    text-decoration: none !important;
+    color: unset;
+}
 /* sidebar */
 .side-bar {
     width: 260px;

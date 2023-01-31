@@ -26,7 +26,7 @@
   </script>
 <template>
     <div class="d-flex flex-column pa-4 border">
-      <router-link :to="'/detail/'+1">
+      <router-link :to="'/detail/'+item.id">
         <v-img :height="height" style="width:100% !important" :src="item.image" />
         <h3 class="mt-4">{{item.title}}  </h3>
         <div class="d-flex justify-space-evenly align-center flex-row-reverse">

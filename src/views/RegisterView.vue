@@ -4,22 +4,44 @@ import { HOST } from '@/constant';
 export default {
   data() {
     return {
-      username: '', email: '', image: '', password: '', rePassword: ''
+      username: '', email: '', password: '', rePassword: ''
     }
   }, methods: {
+    changeImage: function (e) {
+      const file = e.target.files[0]
+      const reader = new FileReader()
+
+      reader.onloadend = () => {
+        this.image = reader.result
+      }
+      reader.readAsDataURL(file)
+    },
     onSubmit: async function () {
-      console.log(this.username);
+      if (this.password!=this.rePassword){
+        alert('Passwords are wrong')
+        return
+      }
+      const data = {
+        'username': this.username,
+        'email': this.email,
+        'image': this.image||'',
+        'password': this.password
+      }
+      console.log(data);
       const res = await fetch(`${HOST}/register`, {
-        method: 'POST', body: {
-          'username': this.username, 
-          'email': this.email,
-           'image': this.image,
-            'password': this.password
+        method: 'POST', body: JSON.stringify(data), headers: {
+          'Content-Type': 'application/json',
         }
-      }).then(res => res.json())
-        .catch(err => console.log(err))
+      }).then(res => {
+        console.log(res);
+        alert('با موفقیت ثبت نام شدید')
+        window.location.replace('/login')
+
+      })
+        .catch(err => console.log(err.message))
       console.log(res);
-    }
+    },
+
   }
 }
 </script>
@@ -37,7 +59,7 @@ export default {
         <input v-model="email" id="email" type="email" placeholder="ایمیل" />
       </div>
       <div class="inputrow mt-3">
-        <v-file-input id="name" type="file" />
+        <v-file-input id="name" type="file" v-on:change="changeImage" />
       </div>
       <div class="inputrow">
         <input v-model="password" id="pass" type="password" placeholder="گذرواژه" />

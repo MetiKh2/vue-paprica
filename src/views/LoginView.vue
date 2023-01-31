@@ -1,23 +1,58 @@
+
+<script>
+import { HOST } from '@/constant';
+
+export default {
+  data() {
+    return {
+      email: '', password: ''
+    }
+  }, methods: {
+    onSubmit: async function () {
+      const data = {
+        'email': this.email,
+        'password': this.password
+      }
+      const res = await fetch(`${HOST}/login`, {
+        method: 'POST', body: JSON.stringify(data), headers: {
+          'Content-Type': 'application/json',
+        }
+      }).then(res => {
+        return res.json()
+      }).then(data => {
+        if (data.token) {
+          localStorage.setItem('user_token', data.token)
+          alert('با موفقیت وارد شدید')
+          window.location.replace('/')
+        }
+      })
+        .catch(err => alert(err.message))
+      console.log(res);
+    },
+
+  }
+}
+</script>
 <template>
 
-<link href="https://fonts.googleapis.com/css?family=Oxygen:400,300,700" rel="stylesheet" type="text/css"/>
-<link href="https://code.ionicframework.com/ionicons/1.4.1/css/ionicons.min.css" rel="stylesheet" type="text/css"/>
-<div class="signin cf">
-  <div class="avatar"></div>
-  <form>
-    <div class="inputrow">
-      <input id="email" type="email" placeholder="ایمیل"/>
-    </div>
-    <div class="inputrow">
-      <input id="pass" type="password" placeholder="گذرواژه"/>
-    </div>
-    <input id="remember" type="checkbox" name="remember"/>
-    <input type="submit" value="ثبت"/>
-  </form>
-</div>
+  <link href="https://fonts.googleapis.com/css?family=Oxygen:400,300,700" rel="stylesheet" type="text/css" />
+  <link href="https://code.ionicframework.com/ionicons/1.4.1/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+  <div class="signin cf">
+    <div class="avatar"></div>
+    <form v-on:submit.prevent="onSubmit">
+      <div class="inputrow">
+        <input id="email" type="email" v-model="email" placeholder="ایمیل" />
+      </div>
+      <div class="inputrow">
+        <input id="pass" type="password" v-model="password" placeholder="گذرواژه" />
+      </div>
+      <input type="submit" value="ثبت" />
+    </form>
+  </div>
 </template>
 
-<style scoped>html,
+<style scoped>
+html,
 body {
   min-height: 100%;
   font-family: Oxygen;
@@ -25,6 +60,7 @@ body {
   font-size: 1em;
   color: #fff;
 }
+
 body {
   background: #2e3441;
   background-image: -webkit-radial-gradient(top, circle cover, #4e7a89, #2e3441 80%);
@@ -34,20 +70,22 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
 .signin {
   display: block;
   position: relative;
   width: 250px;
   margin: 20px auto;
   padding: 20px;
-  background-color: rgba(0,0,0,0.1);
+  background-color: rgba(0, 0, 0, 0.1);
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
-  -webkit-box-shadow: inset 1px 1px 0 0 rgba(255,255,255,0.2), inset -1px -1px 0 0 rgba(0,0,0,0.2);
-  -moz-box-shadow: inset 1px 1px 0 0 rgba(255,255,255,0.2), inset -1px -1px 0 0 rgba(0,0,0,0.2);
-  box-shadow: inset 1px 1px 0 0 rgba(255,255,255,0.2), inset -1px -1px 0 0 rgba(0,0,0,0.2);
+  -webkit-box-shadow: inset 1px 1px 0 0 rgba(255, 255, 255, 0.2), inset -1px -1px 0 0 rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: inset 1px 1px 0 0 rgba(255, 255, 255, 0.2), inset -1px -1px 0 0 rgba(0, 0, 0, 0.2);
+  box-shadow: inset 1px 1px 0 0 rgba(255, 255, 255, 0.2), inset -1px -1px 0 0 rgba(0, 0, 0, 0.2);
 }
+
 .signin .avatar {
   width: 100px;
   height: 100px;
@@ -60,6 +98,7 @@ body {
   -moz-pointer-events: none;
   pointer-events: none;
 }
+
 .signin .avatar:before {
   content: "\f272";
   text-align: center;
@@ -69,14 +108,17 @@ body {
   line-height: 100px;
   font-size: 5em;
 }
+
 .signin .inputrow {
   position: relative;
 }
+
 .signin .inputrow label {
   position: absolute;
   top: 12px;
   left: 10px;
 }
+
 .signin .inputrow label:before {
   color: #538a9a;
   opacity: 0.4;
@@ -84,13 +126,15 @@ body {
   -moz-transition: opacity 300ms 0 ease;
   transition: opacity 300ms 0 ease;
 }
-.signin input[type="text"],input[type='email'],
+
+.signin input[type="text"],
+input[type='email'],
 .signin input[type="password"] {
   padding: 10px 12px 10px 32px;
   display: block;
   width: 100%;
   margin-bottom: 10px;
-  border: 1px solid rgba(255,255,255,0.5);
+  border: 1px solid rgba(255, 255, 255, 0.5);
   background-color: #fff;
   color: #333;
   font-size: 1em;
@@ -106,10 +150,12 @@ body {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-.signin input[type="text"]:focus + label:before,
-.signin input[type="password"]:focus + label:before {
+
+.signin input[type="text"]:focus+label:before,
+.signin input[type="password"]:focus+label:before {
   opacity: 1;
 }
+
 .signin input[type="submit"] {
   -webkit-appearance: none;
   height: 40px;
@@ -126,16 +172,20 @@ body {
   -moz-border-radius: 5px;
   border-radius: 5px;
 }
+
 .signin input[type="submit"]:hover {
   background-color: #5e98a8;
 }
+
 .signin input[type="submit"]:active {
   background-color: #4a7b89;
 }
+
 input[type="checkbox"] {
   display: none;
 }
-input[type="checkbox"] + label {
+
+input[type="checkbox"]+label {
   position: relative;
   padding-left: 36px;
   font-size: 0.6em;
@@ -147,8 +197,9 @@ input[type="checkbox"] + label {
   -moz-user-select: none;
   user-select: none;
 }
-input[type="checkbox"] + label:before,
-input[type="checkbox"] + label:after {
+
+input[type="checkbox"]+label:before,
+input[type="checkbox"]+label:after {
   content: "";
   position: absolute;
   display: block;
@@ -157,16 +208,18 @@ input[type="checkbox"] + label:after {
   -moz-border-radius: 30px;
   border-radius: 30px;
 }
-input[type="checkbox"] + label:before {
+
+input[type="checkbox"]+label:before {
   left: 0;
   top: -2px;
   width: 30px;
-  background: rgba(0,0,0,0.3);
-  -webkit-box-shadow: inset 1px 1px 1px 1px rgba(0,0,0,0.3);
-  -moz-box-shadow: inset 1px 1px 1px 1px rgba(0,0,0,0.3);
-  box-shadow: inset 1px 1px 1px 1px rgba(0,0,0,0.3);
+  background: rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: inset 1px 1px 1px 1px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: inset 1px 1px 1px 1px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 1px 1px 1px 1px rgba(0, 0, 0, 0.3);
 }
-input[type="checkbox"] + label:after {
+
+input[type="checkbox"]+label:after {
   opacity: 0.3;
   background: #fff;
   top: 0px;
@@ -177,21 +230,26 @@ input[type="checkbox"] + label:after {
   -moz-transition: all 200ms 0 ease;
   transition: all 200ms 0 ease;
 }
-input[type="checkbox"]:checked + label {
+
+input[type="checkbox"]:checked+label {
   opacity: 1;
 }
-input[type="checkbox"]:checked + label:after {
+
+input[type="checkbox"]:checked+label:after {
   opacity: 1;
   left: 16px;
 }
+
 .cf:before,
 .cf:after {
   content: " ";
   display: table;
 }
+
 .cf:after {
   clear: both;
 }
+
 .cf {
   *zoom: 1;
 }

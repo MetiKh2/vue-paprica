@@ -1,4 +1,6 @@
 <script>
+import { HOST } from '@/constant';
+
 export default {
     data(){
         return{
@@ -12,16 +14,47 @@ export default {
     onFileChange(e) {
       const file = e.target.files[0];
       this.url = URL.createObjectURL(file);
+      const reader = new FileReader()
+
+      reader.onloadend = () => {
+        this.image = reader.result
+      }
+      reader.readAsDataURL(file)
+    },onSubmit:async function(){
+      if(!this.title){
+        alert('عنوان را وارد کنید')
+        return;
+      }
+      const res = await fetch(`${HOST}/add_post`, {
+        method: 'POST', body: JSON.stringify({
+          title:this.title,
+          raw_material:this.rawMaterial,
+            prepare:this.prepare,
+            image:this.image,
+            category_id:1
+        
+        }), headers: {
+          'Content-Type': 'application/json',
+          'x-access-tokens': localStorage.getItem('user_token')
+        }
+      }).then(res => {
+        console.log(res);
+        alert(' طرز تهیه با موفقیت ثبت شد')
+          window.location.replace('/profile')
+      })
+        .catch(err => alert(err.message))
+      console.log(res);
+    },
     }
   }
-}
+
 </script>
 <template>
     <v-container>
         <h1>
             افزودن طرز تهیه جدید
         </h1>
-        <v-form>
+        <v-form v-on:submit.prevent="onSubmit">
     <v-container>
       <v-row>
         <v-col
@@ -67,7 +100,7 @@ export default {
         <v-col
           cols="12"
         >
-        <v-btn class="bg-red text-h5">ثبت</v-btn>
+        <v-btn type="submit" class="bg-red text-h5">ثبت</v-btn>
         </v-col>
       </v-row>
     </v-container>

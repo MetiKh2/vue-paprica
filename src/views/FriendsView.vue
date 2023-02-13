@@ -15,7 +15,12 @@ export default {
             'x-access-tokens':localStorage.getItem('user_token')
         }
     })
-    .then(response => response.json())
+    .then(response =>{
+            if(response.status==401){
+                window.location.replace('/login')
+            }
+            else return response.json();
+        })
   this.friends = res;
   console.log(res);
     }

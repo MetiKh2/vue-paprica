@@ -4,6 +4,8 @@ import { HOST } from '@/constant';
 export default {
     data(){
         return{
+          categories:[],
+          category:1,
             title:'',
             rawMaterial:'',
             prepare:'',
@@ -31,20 +33,42 @@ export default {
           raw_material:this.rawMaterial,
             prepare:this.prepare,
             image:this.image,
-            category_id:1
+            category_id:this.category
         
         }), headers: {
           'Content-Type': 'application/json',
           'x-access-tokens': localStorage.getItem('user_token')
         }
       }).then(res => {
+            if(res.status==401){
+                window.location.replace('/login')
+            }
+            else{
         console.log(res);
         alert(' طرز تهیه با موفقیت ثبت شد')
           window.location.replace('/profile')
+            }
       })
         .catch(err => alert(err.message))
       console.log(res);
     },
+    }
+    ,mounted:async function () {
+      const res = await fetch(`${HOST}/categories`, {
+            headers: {
+                'x-access-tokens': localStorage.getItem('user_token')
+            }
+        })
+            .then(response => {
+              if (response.status==401) {
+                window.location.replace('/login')
+
+              }
+              else
+              return response.json()
+            })
+        this.categories = res;
+        console.log(res);
     }
   }
 
@@ -100,6 +124,13 @@ export default {
         <v-col
           cols="12"
         >
+        <!-- <v-select :items="categories" :value-comparator="" item-value="category" onchange="onChange"> -->
+        <!-- </v-select> -->
+        <select class="form-select my-5" v-model="category">
+          <option v-for="category in categories" :key="category.id" :value="category.id">
+            {{ category.title }}
+          </option>
+        </select>
         <v-btn type="submit" class="bg-red text-h5">ثبت</v-btn>
         </v-col>
       </v-row>
